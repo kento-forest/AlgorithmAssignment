@@ -43,7 +43,6 @@ public class Percolation {
             }
             else {
                 if (row == n) {
-                    uf.union(n * (row - 1) + col, n * n + 1);
                     if (col == 1) {
                         if (isOpen(n, 2)) uf.union(n * (row - 1) + 1, n * (row - 1) + 2);
                         if (isOpen(n - 1, 1)) uf.union(n * (row - 1) + 1, n * (row - 2) + 1);
@@ -89,6 +88,9 @@ public class Percolation {
                     }
                 }
             }
+            if (isFull(n, col) == true) {
+                uf.union(n*(n-1) + col, n*n+1);
+            }    
         }
     }
 
