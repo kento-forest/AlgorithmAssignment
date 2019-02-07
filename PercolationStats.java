@@ -11,6 +11,8 @@ public class PercolationStats {
     private static final double IKURO = 1.96;
     private final int trials;
     private double[] opList;
+    private double mean;
+    private double stddev;
 
     public PercolationStats(int nn, int tri) {
         trials = tri;
@@ -18,28 +20,23 @@ public class PercolationStats {
     }
 
     public double mean() {
-        double mean = StdStats.mean(opList);
+        mean = StdStats.mean(opList);
         return mean;
     }
 
     public double stddev() {
-        double dev = StdStats.stddev(opList);
-        return dev;
+        stddev = StdStats.stddev(opList);
+        return stddev;
     }
 
     public double confidenceLo() {
-        double xMean = StdStats.mean(opList);
-        double s = Math.sqrt(StdStats.stddev(opList));
-        return xMean - IKURO*s/Math.sqrt(trials);
+        return mean - IKURO*Math.sqrt(stddev)/Math.sqrt(trials);
     }
 
     public double confidenceHi() {
-        double xMean = StdStats.mean(opList);
-        double s = Math.sqrt(StdStats.stddev(opList));
-        return xMean + IKURO*s/Math.sqrt(trials);
+        return mean + IKURO*Math.sqrt(stddev)/Math.sqrt(trials);
     }
 
-    
     public static void main(String[] args) {
         int nn = Integer.parseInt(args[0]);
         int tri = Integer.parseInt(args[1]);
@@ -62,7 +59,7 @@ public class PercolationStats {
         con[1] = perSta.confidenceHi();
         System.out.println("mean                    = " + mean);
         System.out.println("stddev                  = " + dev);
-        System.out.println("95% confidence interval = " + con[0] + ", " + con[1]);
+        System.out.println("95% confidence interval = [" + con[0] + ", " + con[1] + "]");
     }
 }
 
